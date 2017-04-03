@@ -1,6 +1,5 @@
 package com.zafar.folder.sync.client.core;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +29,7 @@ import org.springframework.web.client.RestTemplate;
 import util.Constants;
 import util.ObjectMapperPool;
 
+import com.zafar.folder.sync.common.CreateUserResponse;
 import com.zafar.folder.sync.common.LoginRequest;
 import com.zafar.folder.sync.common.LoginResponse;
 
@@ -71,7 +71,7 @@ public class Auth implements IAuth {
 		restTemplate = new RestTemplate(
 				new HttpComponentsClientHttpRequestFactory(getPool()));
 		logger.info("Logging in ");
-		signIn();
+		signIn(userName, password);
 	}
 
 	public HttpClient getPool() {
@@ -95,7 +95,28 @@ public class Auth implements IAuth {
 	}
 
 	@Override
-	public boolean signIn() {
+	public boolean signIn(String u, String p) {
+		HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+		ObjectMapper mapper=ObjectMapperPool.getMapper();
+
+		String json="";
+		try {
+			json = mapper.writeValueAsString(new LoginRequest(u, p, fingerPrint.getFingerPrint()));
+		
+			HttpEntity<String> entity = new HttpEntity<String>(json, headers);
+			ResponseEntity<String> response=restTemplate.postForEntity(serverPath.concat(Constants.SIGN_IN_SUFFIX), entity, String.class);
+			LoginResponse resp=mapper.readValue(response.getBody(), LoginResponse.class);
+			logger.debug("Got login response {}",resp.getResult());
+			return resp.getResult();
+		} catch (Exception e) {
+			logger.error("Parse exception", e);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean createNewUser(String username, String password) {
 		HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
 		ObjectMapper mapper=ObjectMapperPool.getMapper();
@@ -105,29 +126,24 @@ public class Auth implements IAuth {
 			json = mapper.writeValueAsString(new LoginRequest(userName, password, fingerPrint.getFingerPrint()));
 		
 			HttpEntity<String> entity = new HttpEntity<String>(json, headers);
-			ResponseEntity<String> response=restTemplate.postForEntity(serverPath.concat(Constants.SIGN_IN_SUFFIX), entity, String.class);
-			LoginResponse resp=mapper.readValue(response.getBody(), LoginResponse.class);
-			logger.debug("Got login response {}",resp.isResult());
-		} catch (IOException e) {
+			ResponseEntity<String> response=restTemplate.postForEntity(serverPath.concat(Constants.CREATE_USER_SUFFIX), entity, String.class);
+			CreateUserResponse resp=mapper.readValue(response.getBody(), CreateUserResponse.class);
+			logger.debug("Got create user response {}",resp.getStatus());
+			return resp.isResult();
+		} catch (Exception e) {
 			logger.error("Parse exception", e);
 		}
 		return false;
 	}
 
 	@Override
-	public boolean createNewUser() {
+	public boolean signOut(String u) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean signOut() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean forgotPassword() {
+	public boolean forgotPassword(String u) {
 		// TODO Auto-generated method stub
 		return false;
 	}

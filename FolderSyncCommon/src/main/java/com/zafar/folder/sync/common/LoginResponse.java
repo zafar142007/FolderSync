@@ -1,9 +1,9 @@
 package com.zafar.folder.sync.common;
 
 public class LoginResponse extends AppResponse{
-	private boolean result=true;
+	private boolean result=false;
 
-	public boolean isResult() {
+	public boolean getResult() {
 		return result;
 	}
 
@@ -14,5 +14,9 @@ public class LoginResponse extends AppResponse{
 	public LoginResponse() {
 		super();
 	}
-	
+
+	public LoginResponse(boolean re, LoginRequest req) {
+		super(req);
+		result=re;
+	}
 }

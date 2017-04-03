@@ -31,6 +31,7 @@ public class FingerPrint {
 		if(Files.exists(Paths.get(Constants.FINGERPRINT_PATH))){
 			try (Stream<String> stream = Files.lines(Paths.get(Constants.FINGERPRINT_PATH))) {
 				stream.forEach((s)->{
+					logger.debug("Found fingerprint {}",s);
 					fingerPrint=s;
 				});
 			} catch (IOException e) {
@@ -46,6 +47,7 @@ public class FingerPrint {
 		fingerPrint= ThreadLocalRandom.current().nextInt(0, 10000000)+"";	
 		try {
 			Files.write(Paths.get(Constants.FINGERPRINT_PATH), fingerPrint.getBytes());
+			logger.debug("Formed fingerprint {}", fingerPrint);
 		} catch (IOException e) {
 			logger.error("Could not write to file",e);
 		}

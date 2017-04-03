@@ -3,6 +3,9 @@ package com.zafar.folder.sync.common;
 public abstract class AppRequest {
 	protected String fingerPrint;
 	protected Long timeStamp=System.currentTimeMillis();
+	public AppRequest() {
+		super();
+	}
 
 	public String getFingerPrint() {
 		return fingerPrint;

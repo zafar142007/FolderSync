@@ -2,12 +2,12 @@ package com.zafar.folder.sync.client.core;
 
 public interface IAuth {
 
-	public boolean signIn();
+	public boolean signIn(String u, String p);
 	
-	public boolean createNewUser();
+	public boolean createNewUser(String s, String p);
 	
-	public boolean signOut();
+	public boolean signOut(String u);
 	
-	public boolean forgotPassword();
+	public boolean forgotPassword(String u);
 
 }

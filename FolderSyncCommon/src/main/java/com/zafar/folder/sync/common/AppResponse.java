@@ -7,6 +7,9 @@ public abstract class AppResponse {
 	public AppResponse() {
 		super();
 	}
+	public AppResponse(LoginRequest req) {
+		request=req;
+	}
 	public AppRequest getRequest() {
 		return request;
 	}

@@ -3,8 +3,9 @@ package com.zafar.folder.sync.common;
 public class LoginRequest extends AppRequest{	
 	private String userName;
 	private String password;
-	public LoginRequest(){}
+	public LoginRequest(){super();}
 	public LoginRequest(String u, String p, String f){
+		super();
 		userName=u;
 		password=p;
 		fingerPrint=f;

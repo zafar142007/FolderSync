@@ -4,21 +4,38 @@
 	<groupId>com.zafar</groupId>
 	<artifactId>FolderSyncServer</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>FolderSyncServer Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<parent>
+		<groupId>com.zafar</groupId>
+		<artifactId>FolderSync</artifactId>
+		<version>0.1</version>
+	</parent>
 	<properties>
 		<spring.version>4.1.1.RELEASE</spring.version>
 		<jdk.version>1.8</jdk.version>
-		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
+		<slf4j-version>1.6.1</slf4j-version>
+		<log4j.version>1.2.15</log4j.version>
+		<hive.jar.version>0.13.1</hive.jar.version>
+		<sp.core.components.version>1.1</sp.core.components.version>
 		<logback.version>1.1.3</logback.version>
+		<packaging>war</packaging>
+		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
+		<mysql.connector.version>5.1.37</mysql.connector.version>
+		<config.engine.version>1.1</config.engine.version>
 	</properties>
+	<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+
+
 	<dependencies>
 		<dependency>
 			<groupId>com.zafar</groupId>
 			<artifactId>FolderSyncCommon</artifactId>
 			<version>1.0</version>
 		</dependency>
+	
+
 		<!-- Spring 4 dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -36,6 +53,61 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-couchbase</artifactId>
+			<version>1.0.0.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.couchbase.client</groupId>
+					<artifactId>couchbase-client</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		
+		<!-- Dependencies added for hive connectivity -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${jcl.slf4j.version}</version>
@@ -46,14 +118,23 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	
 
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+		
+
+		
+
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -106,5 +187,4 @@
 		<finalName>FolderSyncServer</finalName>
 
 	</build>
-
 </project>
