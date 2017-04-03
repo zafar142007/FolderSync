@@ -1,0 +1,1 @@
+java -cp:. com.zafar.folder.sync.client.Client
