@@ -3,6 +3,8 @@ package com.zafar.folder.sync.client;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.zafar.folder.sync.client.util.CLInterface;
+
 /**
  * 
  *

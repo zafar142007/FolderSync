@@ -2,9 +2,12 @@ package com.zafar.folder.sync.server.auth;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -32,8 +35,9 @@ public class AuthService {
 			}
 			InputStream input=null;
 		
-			input = new FileInputStream("classpath*:"+Constants.DATA_FILE_PATH);
+			input = new FileInputStream(Constants.DATA_FILE_PATH);
 			users.load(input);
+			input.close();
 
 		} catch (Exception e) {
 			logger.error("Error",e);
@@ -62,14 +66,30 @@ public class AuthService {
 			}
 			i++;			
 		}
-		if(indicator)
-			users.put(req.getUserName(), users.get(req.getUserName().concat(Constants.DELIMITER).concat(req.getFingerPrint())));		
+		if(indicator){
+			try {
+				FileOutputStream out = new FileOutputStream(Constants.DATA_FILE_PATH);
+				users.setProperty(req.getUserName(), ((String) users.get(req.getUserName())).concat(Constants.DELIMITER).concat(req.getFingerPrint()));
+				users.store(out, null);			
+				out.close();
+			} catch (IOException e) {
+				logger.error("Error",e);
+			}
+			
+		}
 	}
 	public CreateUserResponse createUser(LoginRequest req){
 		if(users.containsKey(req.getUserName())){
+			req.setPassword("");
 			return new CreateUserResponse(Constants.ALREADY_EXISTS,false, req);
 		}else{
 			users.put(req.getUserName(), req.getPassword());
+			try {
+				Files.write(Paths.get(Constants.DATA_FILE_PATH), req.getUserName().concat("=").concat(req.getPassword()).getBytes(), StandardOpenOption.APPEND);
+			} catch (Exception e) {
+				logger.error("Error",e);
+			}
+			req.setPassword("");
 			return new CreateUserResponse(Constants.CREATED, true, req);
 		}
 	}

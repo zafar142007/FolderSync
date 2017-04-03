@@ -24,15 +24,18 @@ public class MainController{
 	@ResponseBody public String getPing(){
 		return Constants.ALL_OKAY;
 	}
-	@RequestMapping(value="/signin", method = RequestMethod.POST, consumes={ MediaType.APPLICATION_JSON_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE })	
+	@RequestMapping(value="/signin", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})	
 	public @ResponseBody ResponseEntity<LoginResponse> signIn(@RequestBody LoginRequest req){
 		boolean result=authService.authenticate(req);
+		req.setPassword("");
 		return new ResponseEntity<LoginResponse>(new LoginResponse(result, req), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/signup", method = RequestMethod.POST, consumes={ MediaType.APPLICATION_JSON_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE })	
+	@RequestMapping(value="/signup", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})	
 	public @ResponseBody ResponseEntity<CreateUserResponse> signUp(@RequestBody LoginRequest req){
 		CreateUserResponse result=authService.createUser(req);
+		req.setPassword("");
+
 		return new ResponseEntity<CreateUserResponse>(result, HttpStatus.OK);
 	}
 }

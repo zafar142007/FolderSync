@@ -39,13 +39,13 @@ public class Auth implements IAuth {
 	@Value("${server.path}")
 	private String serverPath;
 
-	@Value("${username}")
+	@Value("${default.username}")
 	private String userName;
 
-	@Value("${password}")
+	@Value("${default.password}")
 	private String password;
 
-	@Value("${full.path.shared.folder}")
+	@Value("${default.full.path.shared.folder}")
 	private String sharedFolder;
 
 	@Value("${max.connections}")
@@ -116,14 +116,14 @@ public class Auth implements IAuth {
 	}
 
 	@Override
-	public boolean createNewUser(String username, String password) {
+	public boolean createNewUser(String u, String p) {
 		HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
 		ObjectMapper mapper=ObjectMapperPool.getMapper();
 
 		String json="";
 		try {
-			json = mapper.writeValueAsString(new LoginRequest(userName, password, fingerPrint.getFingerPrint()));
+			json = mapper.writeValueAsString(new LoginRequest(u, p, fingerPrint.getFingerPrint()));
 		
 			HttpEntity<String> entity = new HttpEntity<String>(json, headers);
 			ResponseEntity<String> response=restTemplate.postForEntity(serverPath.concat(Constants.CREATE_USER_SUFFIX), entity, String.class);

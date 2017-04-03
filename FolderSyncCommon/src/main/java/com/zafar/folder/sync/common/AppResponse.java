@@ -1,6 +1,6 @@
 package com.zafar.folder.sync.common;
 
-public abstract class AppResponse {
+public class AppResponse {
 	protected AppRequest request;
 	protected Long timeStamp=System.currentTimeMillis();
 	
