@@ -26,9 +26,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import util.Constants;
-import util.ObjectMapperPool;
-
+import com.zafar.folder.sync.client.util.Constants;
+import com.zafar.folder.sync.client.util.ObjectMapperPool;
 import com.zafar.folder.sync.common.CreateUserResponse;
 import com.zafar.folder.sync.common.LoginRequest;
 import com.zafar.folder.sync.common.LoginResponse;

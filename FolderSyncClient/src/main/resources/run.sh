@@ -1,1 +1,1 @@
-java -cp:. com.zafar.folder.sync.client.Client
+java -classpath . com.zafar.folder.sync.client.Client

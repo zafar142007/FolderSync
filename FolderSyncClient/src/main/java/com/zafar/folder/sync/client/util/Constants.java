@@ -1,4 +1,4 @@
-package util;
+package com.zafar.folder.sync.client.util;
 
 public class Constants{
 	public final static String SIGN_IN_SUFFIX="/signin";

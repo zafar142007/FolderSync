@@ -1,4 +1,4 @@
-package util;
+package com.zafar.folder.sync.client.util;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
